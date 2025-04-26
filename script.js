@@ -1,75 +1,190 @@
+class Room {
+  constructor (name){
+    this._name = name;
+    this._description = "";
+    this._linkedRooms = {};
+    this._cleaningTasks = [];
+  }
+
+  get name(){return this.name;}
+  get description(){return this._description;}
+  get cleaningTasks(){return this._cleaningTasks;}
+  set name(value) {this._name = value;}
+  set description(value) {this._description = value;}
+
+  completeTask(task) {
+    this._cleaningTasks.push(task)
+  }
+  removeTask(taskName) {
+    this._cleaningTasks = this._cleaningTasks.filter(task => task.name !== taskName);
+  }
+  taskNotCompleted(taskName) {
+    return this._cleaningTasks.some(task =>task.name === taskName);
+  }
+
+  addDescription() {
+    let taskDescription = "";
+    if (this.cleaningTasks.length > 0){
+     return "In the " + this._name + ", there " + this._description + "As you look closely, you notice " + taskDescription 
+    } else {
+      return "In the " + this._name + ", there " + this._description + " The room is now spotless. "
+    };
+  }
+  
+  addLinkedRoom(roomToLink, direction){
+    this._linkedRooms = roomToLink;
+  }
+
+  getLinkedRooms(){
+   const exits = Object.keys(this._linkedRooms);
+   let exitDescriptions = [];
+   for (const [room, direction] of exits){
+    let exitDescription = "You can go " + direction + " to the " + room.name + ". ";
+   }}
+
+   move(direction) {
+    if (this._linkedRooms [direction]){
+      return this._linkedRooms [direction];
+    } else { 
+      return "There is no exit in that direction. Try another way.";
+    }}
+  }
+
+  class Task {
+    constructor (name){
+      this._name = name;
+      this._description = "";
+    }
+
+    get name(){return this._name;}
+    get description(){return this._description;}
+    set name(value) {this._name = value;}
+    set description(value) {this._description = value;}
+
+    addDescription(){
+      return this._description;
+    }
+  }
+
+const Kitchen = new Room ("kitchen");
+Kitchen.description = "are colourful pots of fragrant herbs on the windowsill, a bowl of fruit and some tulips in a vase on the table. The windon offers a lovely view of the garden. ";
+const KitchenTask = new Task ("floor");
+KitchenTask.description = "breadcrumbs and spilled orange juice on the floor. "
+const DiningRoom = new Room ("dining room");
+DiningRoom.description = "is a round wooden table, an old fireplace, a few paintings and family photographs hanging on the walls and large french windows that open onto the patio, bringing beautiful light into the room. "; 
+const DiningRoomTask = new Task ("windows");
+DiningRoomTask.description = "greasy fingerprints all over the windows. "
+const LivingRoom = new Room ("living room");
+LivingRoom.description = "is a comfortable sofa with a couple of matching armchairs, plenty of colourful cushions, a coffee table with a few magazines and books, and a large TV screen opposite the sofa. Perfect for a family movie night. ";
+const LivingRoomTask = new Task ("carpet");
+LivingRoomTask.description = "a brown stain on the new carpet. Somebody must have spilled their tea. ";
+const DownstairsLoo = new Room ("downstairs loo");
+DownstairsLoo.description = "is a small sink, a mirror and a few framed pictures hanging on the walls covered with jungle print wallpaper. It is your favourite hiding place. ";
+const DownstairsLooTask = new Task ("cobwebs");
+DownstairsLooTask.description = "a few cobwebs in the corners of the room just below the ceilig. ";
+const Hallway = new Room ("hallway"); Hallway.description = "are coats hanging on the coat rack and a large shoe cabinet with a bowl of keys on top and a mirror hanhing on the wall above. ";
+const HallwayTask = new Task ("mirror");
+HallwayTask.description = "that you can hardly see your reflection because of the dust and the smudges. ";
+const Study = new Room ("study");
+Study.description = "is a large desk with a computer, a lamp, a bookshelf brimming with books and a comfortable armchair. ";
+const StudyTask = new Task ("desk");
+StudyTask.description = "a thin layer of dust and some crumbs on the desk. ";
+
+Kitchen.addLinkedRoom (Hallway, "east");
+Kitchen.addLinkedRoom (DiningRoom, "south");
+DiningRoom.addLinkedRoom (Kitchen,"north");
+DiningRoom.addLinkedRoom (LivingRoom, "east");
+LivingRoom.addLinkedRoom (DiningRoom, "west");
+LivingRoom.addLinkedRoom (Study, "west");
+Study.addLinkedRoom (LivingRoom, "east");
+Study.addLinkedRoom (DownstairsLoo, "north");
+DownstairsLoo.addLinkedRoom (Study, "south");
+DownstairsLoo.addLinkedRoom (Hallway, "west");
+Hallway.addLinkedRoom (Kitchen, "west");
+Hallway.addLinkedRoom (DownstairsLoo, "east");
+
+let currentRoom = Kitchen;
+let completedTasks = [];
+let currentScore = 0;
+
 const welcomePage = document.getElementById("welcome-page");
-const startButton = document.getElementById("start-button");
 const gamePage = document.getElementById("game-page");
-const gameStatsDiv = document.getElementById("game-stats-div");
-const score = document.getElementById("score");
-const energyLevel = document.getElementById("energy-level");
-const roomDiv = document.getElementById("room-div");
-const roomName = document.getElementById("room-name");
-const currentRoom = document.getElementById("current-room");
-const roomDescriptionStatic = document.getElementById("room-description-static");
-const roomDescriptionTask = document.getElementById("room-description-task");
-const roomDescriptionOptional = document.getElementById("room-description-optional"); 
-const energyRequiredDiv = document.getElementById("energy-required-div");
-const energyValue = document.getElementById("energy-value");
-const exitsDiv = document.getElementById("exits-div");
-const exit1 = document.getElementById("exit-1");
-const exit2 = document.getElementById("exit-2"); 
-const exit3 = document.getElementById("exit-3");
-const inputDiv = document.getElementById("input-div");
-const userText = document.getElementById("user-text");
-const messagesDiv = document.getElementById("messages-div");
-const messageText = document.getElementById("message-text");
+const startButton = document.getElementById("start-button");
 
-let scoreValue=0;
-let energyLevelValue = 100;
 
-startButton.addEventListener('click', enterHouse);
+function populateRoomDescription(room){
+
+  const currentRoom = document.getElementById("current-room");
+  const description = document.getElementById("room-description");
+
+  const roomName = room.name;
+  const roomDescription = room.addDescription();
+  const exits = room.getLinkedRooms().join("<br>");
+   
+  currentRoom.innerHTML = roomName;
+  description.innerHTML = ` 
+  <p> ${roomDescription} </p>
+  <p> ${exits} </p>
+  `;
+}
+
+function completeTask(taskName){
+  if (currentRoom.taskNotCompleted(taskName)) {
+    currentRoom.removeTask(taskName);
+    completedTasks.push(taskName);
+    currentScore += 1;
+    return true;
+  } 
+  return false;
+}
+
+function checkWin(){
+  if (completedTasks.length === 6) {
+    return true;
+  }
+}
+
+ 
+function startGame() {
+  startButton.addEventListener('click', enterHouse);
+}
 
 function enterHouse(){
-  welcomePage.classList.add("hidden");
-  gamePage.classList.remove("hidden");
-};
 
-//        Create Room class
-
-class Room {
-  constructor(name) {
-    this._name = name;
-    this._descriptionStatic = "";
-    this._descriptionTask = "";
-    this._descriptionOptional = "";
-    this._energyValue = 0;
-    this._energyRestore = 0;
-    this._linkedRooms = {}; 
-  }
-
-  get name() {return this._name;}
-  get descriptionStatic() {return this._descriptionStatic;}
-  get descriptionTask() {return this._descriptionTask;}
-  get descriptionOptional() {return this._descriptionOptional}
-  get energyValue() {return this._energyValue;}
-  get energyRestore() {return this._energyRestore;}
-  get linkedRooms() {return this._linkedRooms;}
-
-  set name (value) {this._name = value;}
-  set descriptionStatic(value) {this._descriptionStatic = value;}
-  set descriptionTask(value) {this._descriptionTask = value;}
-  set descriptionOptional(value) {this._descriptionOptional = value;}
-  set energyValue(value) {this._energyValue = value;}
-  set energyRestore(value) {this._energyRestore = value;}
+    welcomePage.classList.add("hidden");
+    gamePage.classList.remove("hidden");
   
+     currentRoom = Kitchen;
+     populateRoomDescription(currentRoom);
+
+     const userInput = document.getElementById("user-input");
+
+     document.addEventListener("keydown", function(event){
+
+    if (event.key === "Enter") {
+      const command = userInput.value.toLowerCase();
+      const directions = ["north", "south", "east", "west"];
+      const messageText = document.getElementById("output");
+
+      if (directions.includes(command)) {
+        currentRoom = currentRoom.move(command);
+        populateRoomDescription(currentRoom);
+      } else if (command.startsWith("clean")){
+         const TaskName = command.replace("clean","")
+         if (completeTask(taskName)){
+          messageText.innerHTML = `<p>Thank you for cleaning the ${taskName} in the ${currentRoom}</p>`
+         }
+            if (checkWin()){
+             messageText.innerHTML = `<p>Well done, you have cleaned the whole house! Why don't you treat yourself to a manicure. </p>`
+             userInput.disabled = true;
+         } else {
+          messageText.innerHTML = `<p>The ${taskName} doesn't need any cleaning right now. </p>`
+        }
+      } else {
+        messageText.innerHTML = `<p>Unknown command, please try again. </p>`
+      }
+}})
 }
+
+window.onload = startGame;
   
-class Player {
-  constructor(){
-    this._scoreValue = 0;
-    this._energyLevelValue = 100;
-  }
-
-  get scoreValue() {return this._scoreValue;}
-  get energyLevelValue() {return this._energyLevelValue;}
-
-  set scoreValue (value) {this._scoreValue = value;}
-  set energyLevelValue (value) {this._energyLevelValue = value;}
-}

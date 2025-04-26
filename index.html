@@ -4,70 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>Desperate Housewife Game OOP</title>
+    <title>OOP Desperate Housewife Text Adventure Game</title>
 </head>
 
 <body class="bg-white text-gray-800 font-mono">
-    <div class="md:max-w-4xl mx-auto">
+    <div class="md:max-w-3xl mx-auto">
         <!--welcome page + start button >> doesn't change >> will become hidden -->
-        <div id="welcome-page" class="welcome-page bg-sky-100 p-5 rounded-md shadow-xl justify-self-center">
+        <div id="welcome-page" class="welcome-page bg-sky-100 p-3 m-3 rounded-md shadow-xl">
             <h1 class="mx-5 my-2 px-5 py-2 font-bold text-2xl text-sky-900 ">Desperate Housewife</h1>
             <h2 class="mx-5 px-5 mb-2 font-semibold text-lg text-sky-900 ">A House Cleaning Text Adventure Game</h2>
             <hr class=" h1 mx-5 my-2 p-2 text-lg text-orange-700 ">
-            <p class="intro mx-5 px-5 py-2 font-semibold text-xs text-sky-900 ">You are a desperate housewife, and your home currently resembles a disaster zone.</p>
-            <p class="intro mx-5 px-5 py-1 font-normal text-xs text-sky-900 ">Your family has left behind a whirlwind of mess, and it's up to you to restore order. 
-                Can you tackle all the chores and return every room to its pristine, perfect state?</p>
-            <p class="intro mx-5 px-5 py-1 font-normal text-xs text-sky-900 ">Fortunately, you had a great night's sleep and your energy level is at a full 100%. 
-                The tasks ahead can be draining, but don't worry—there are ways to replenish your energy if you start running on empty.</p> 
-            <p class="intro mx-5 px-5 py-3 font-normal text-xs text-sky-900 ">So, roll up your sleeves and let's get cracking!</p>  
+            <p class="intro mx-5 px-5 py-2 font-semibold text-sm text-sky-900 ">You are a desperate housewife, and your home currently resembles a disaster zone.</p>
+            <p class="intro mx-5 px-5 py-3 font-normal text-sm text-sky-900 ">Your family has left behind a whirlwind of mess, and it's up to you to restore order. Can you tackle all the chores and return every room to its pristine, perfect state before you lose the will to live?</p>  
             <hr class=" h1 mx-5 my-2  p-2 text-lg text-orange-700 "> 
-            <p class="intro mx-5 px-5 py-2 font-semibold text-sm text-sky-900 ">How to play: </p>
-            <p class="intro mx-5 px-5 py-1 font-normal text-xs text-sky-900 ">To move from one room to another, type <strong>move</strong> followed by the direction <strong>(North, South, 
-                East, West)</strong> and press <strong>Enter</strong>.</p>
-            <p class="intro mx-5 px-5 py-1 font-normal text-xs text-sky-900 ">The highlighted phrases in the text provide clues about the tasks that need to be done and the means to 
-                achieve that. For example, if you find <strong>tea spilled on the floor</strong> and a <strong>bucket with a mop</strong> in the corner of the room, 
-                type <strong>mop floor</strong> and press <strong>Enter</strong>. </p> 
-            <p class="intro mx-5 px-5 py-3 font-normal text-xs text-sky-900 ">Look for clues hidden in the text, ignore articles when typing instructions, 
-                and try to remember where in the house you might be able to find relief if you start feeling a bit worn out.</p>  
+            <p class="intro mx-5 px-5 py-2 font-semibold text-md text-sky-900 ">How to play: </p>
+            <p class="intro mx-5 px-5 py-3 font-normal text-sm text-sky-900 ">To move from one room to another, type the desired direction <strong>
+                (north south, east, west)</strong> and press <strong>Enter</strong>. Look carefully for the hidden clues in the text about the <strong>cleaning tasks</strong> that need to be completed. When typing your instructions, keep it as brief and ignore articles </p>
+            <p class="intro mx-5 px-5 py-3 font-normal text-sm text-sky-900 "> So, roll up your sleeves and let's get going!</p>
             <hr class=" h1 m-5 p-2 text-lg text-orange-700 "> 
-            <div class="grid grid-cols-1 content-center">
+            <div class="grid grid-cols-1 content-center py-3">
                   <button id="start-button" class="start-button rounded-sm shadow-lg bg-sky-700 hover:bg-sky-600 text-semibold text-orange-200 p-3 mb-3 mx-auto" >Enter the house</button>
             </div>
         </div>
         <!--game page -->
-        <div id="game-page" class="hidden game-page h-fit bg-sky-100 p-2 m-2 rounded-md shadow-xl">
-                <div id="game-stats-div" class="game-stats-div bg-sky-200 rounded-md pl-5 pr-10 py-5 h-fit flex justify-between">
-                    <p class="score font-semibold text-sm text-sky-900 m-2">Tasks completed: <span id="score"><!--scoreValue--></span> out of 6</p>   
-                    <p class="energy-level font-semibold text-sm text-sky-900 m-2">Energy level: <span id="energy-level"><!--energyLevelValue--></span> %</p>
-                </div>
-                <div id="room-div" class="room-div bg-sky-100 pl-5 pr-10 py-3 h-fit">
-                    <h3 id="room-name" class="font-semibold text-sm text-sky-900 m-2">Room: You are in the <span id="current-room"><!--kitchen--></span>.</h3>
-                    <p id="room-description-static" class="font-normal text-xs text-sky-900 m-2"> <!--There are colourful pots of fragrant herbs on the windowsill, a bowl of fruit and some tulips in a vase on the table. The windon offers a lovely 
-                        view of the garden.--> </p>
-                    <p id="room-description-task" class="font-normal text-xs text-sky-900 m-2"><!--This idyllic scene is somewhat ruined by the fact that your husband cooked dinner yesterday and now there is a  
-                        gigantic pile of <strong>dirty dishes</strong> left by the sink. Unfortunately, the dishwasher is broken and the handyman can't come today.--></p>
-                    <p id="room-description-optional" class="font-normal text-xs text-sky-900 m-2"><!--There is a <strong> coffee machine</strong> on the counter, 
-                        supply of freshly roasted coffee beans stored in a jar and hand-painted ceramic mugs on a shelf.--></p>
-                    </div> 
-                <div id="energy-required-div" class="energy-required-div bg-sky-100 pl-5 pr-10 py-3 h-fit">
-                    <h3 class="font-semibold text-sm text-sky-900 m-2">Energy required to complete task: <span id="energy-value"><!--30--></span>%</h3>
-                </div>
-                <div id="exits-div" class="exits-div bg-sky-100 pl-5 pr-10 py-3 h-fit">
-                    <h3 class="font-semibold text-sm text-sky-900 m-2">Exits: </h3>
-                    <p id="exit-1" class="exit-1 font-normal text-xs text-sky-900 m-2"><!--To the <strong>north</strong> there is a door leading to the dining room.--></p>
-                    <p id="exit-2" class="exit-2 font-normal text-xs text-sky-900 m-2"><!--To the <strong>east</strong> there is a door leading to the living room.--></p>
-                    <p id="exit-3" class="exit-3 font-normal text-xs text-sky-900 m-2"><!--There are no more exits--></p>
-                </div>
-                <div id="input-div" class="input-div bg-sky-100 pl-5 pr-10 py-3 h-fit">
-                    <h3 class="font-semibold text-sm text-sky-900 m-2">Play: </h3>
-                    <input type="text" id="user-text"  class="user-text hover:bg-sky-50 rounded-md p-5 h-10 w-lg text-xs text-sky-900 m-2 border border-orange-700" placeholder="Type your command here and press Enter">
-                </div>
-                <div id="messages-div" class="messages-div bg-sky-200 rounded-md pl-5 pr-10 py-5 h-fit">
-                    <h3 class="font-semibold text-sm text-sky-900 m-2">Messages: </h3>
-                    <p id="message-text" class="message-text font-normal text-xs text-sky-900 m-2">You seem to be doing just fine, you don't need any advice right now.</p>
-                </div>
+        <div id="game-page" class=" hidden h-fit bg-sky-100 p-3 m-3 rounded-md shadow-xl">
+            <h1 class="mx-5 my-2 px-5 py-2 font-bold text-2xl text-sky-900 ">Desperate Housewife</h1>
+            <p class="font-semibold text-sm text-sky-900 mx-5 px-5 py-2">Tasks completed: <span id="current-score"></span> out of 6</p>
+            <hr class=" h1 mx-5 my-2 p-2 text-lg text-orange-700 ">
+            <div id="room-div" class="room-div bg-sky-100 pl-5 pr-10 pb-3 h-fit">
+                <h3 class="font-semibold text-sm text-sky-900 m-2">Room: You are in the <span id="current-room"></span>.</h3>
+                <p id="room-description" class="room-description px-2 pb-3 font-normal text-sm text-sky-900 "></p>
+            </div>
+            <div id="input-div" class="input-div bg-sky-100 pl-5 pr-10 py-5 h-fit">
+                <h3 class="font-semibold text-sm text-sky-900 m-2">Play: </h3>
+                <input type="text" id="user-input"  class="hover:bg-sky-50 rounded-md p-5 h-10 w-lg text-sm text-sky-800 m-2 border border-orange-700" placeholder="Type your command here and press Enter">
+            </div>
+            <div class="bg-sky-200 rounded-md pl-5 pr-10 py-5 h-fit">
+                <h3 class="font-semibold text-sm text-sky-900 m-2">Messages: </h3>
+                <p id="output" class="font-normal text-sm text-sky-900 m-2"></p>
+            </div>
         </div>
-    </div>
-    <script src="script.js"></script>  
+        <script src="script.js"></script>  
 </body>
 </html>
