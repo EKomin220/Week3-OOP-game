@@ -1,0 +1,23 @@
+{
+  "name": "week3-oop-game",
+  "version": "1.0.0",
+  "description": "Attempt to build a game using HTML, Tailwind and JavaScript with focus on OOP.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EKomin220/Week3-OOP-game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EKomin220/Week3-OOP-game/issues"
+  },
+  "homepage": "https://github.com/EKomin220/Week3-OOP-game#readme",
+  "dependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
