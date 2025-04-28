@@ -51,7 +51,6 @@ class Room {
    return exitDescriptions;
   }
 
-
    move(direction) {
     if (direction in this._linkedRooms){
       return this._linkedRooms[direction];
@@ -60,7 +59,6 @@ class Room {
       return this;
     }}
 }
-
   //===========================================
 
   class Task {
@@ -136,21 +134,21 @@ const welcomePage = document.getElementById("welcome-page");
 const gamePage = document.getElementById("game-page");
 const startButton = document.getElementById("start-button");
 
-let currentRoom;
+let currentRoom = Kitchen;
 let completedTasks = [];
 let currentScore = 0;
 
 function populateRoomDescription(room){
 
-  const currentRoom = document.getElementById("current-room");
-  const description = document.getElementById("room-description");
+  const currentRm = document.getElementById("current-room");
+  const rmDescription = document.getElementById("room-description");
 
   const roomName = room.name;
   const roomDescription = room.addRoomDescription();
   const exits = room.getLinkedRooms().join("<br>");
    
-  currentRoom.innerHTML = roomName;
-  description.innerHTML = ` 
+  currentRm.innerHTML = roomName;
+  rmDescription.innerHTML = ` 
   <p> ${roomDescription} </p>
   <p> ${exits} </p>
   `;
@@ -172,7 +170,7 @@ function checkWin(){
   }
 }
 
-// =======================GAME ================================
+// ======================= enter GAME once button is clicked ================================
 
 function enterHouse(){
 
